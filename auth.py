@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import *
 from dbutil import insertUser, findUser
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 import bcrypt
 
 class Dialog(QDialog):
@@ -12,6 +12,9 @@ class Dialog(QDialog):
         formLayout = QFormLayout()
 
         self.label = QLabel()
+        pal = self.label.palette()
+        pal.setColor(QtGui.QPalette.WindowText, QtGui.QColor("red"))
+        self.label.setPalette(pal)
         formLayout.addRow(self.label)
 
         self.login_field = QLineEdit()
