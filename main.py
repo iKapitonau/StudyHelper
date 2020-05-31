@@ -13,6 +13,6 @@ if __name__ == '__main__':
             window = pupil.PupilWindow()
             window.show()
         elif dlg.who == 'Teacher':
-            # TODO: add teacher window
-            pass
+            window = teacher.TeacherWindow()
+            window.show()
     sys.exit(app.exec_())
