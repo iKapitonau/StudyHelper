@@ -7,10 +7,10 @@ class PupilWindow(QMainWindow):
         super().__init__(parent)
         self.setWindowTitle('Study Helper (Pupil)')
         
-        exitAct = QAction(QIcon('exit.png'), 'Exit', self)
+        exitAct = QAction(QIcon('icons/exit.png'), 'Exit', self)
         exitAct.triggered.connect(qApp.quit)
 
-        helpMeAct = QAction(QIcon('helpme.png'), 'HELP ME!', self)
+        helpMeAct = QAction(QIcon('icons/helpme.png'), 'HELP ME!', self)
         helpMeAct.triggered.connect(self.helpMe)
         
         self.toolbar = self.addToolBar('Exit')
