@@ -73,7 +73,6 @@ class Dialog(QDialog):
             errorMsg = 'Incorrect role.'
 
         if not errorMsg:
-            #TODO: save role somewhere
             self.done(0)
         else:
             self.label.setText(errorMsg)
@@ -90,7 +89,6 @@ class Dialog(QDialog):
             errorMsg = 'User with such name already exists.'
         
         if not errorMsg:
-            #TODO: save role somewhere
             insertUser(user)
             self.done(0)
         else:

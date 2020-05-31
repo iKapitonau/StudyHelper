@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QAction, qApp, QApplication
 from PyQt5.QtGui import QIcon
+from dbutil import startWatchHelpMessages
 
 class TeacherWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -27,6 +28,9 @@ class TeacherWindow(QMainWindow):
         self.toolbar.addAction(exitAct)
         
         self.setGeometry(300, 300, 800, 600)
+        
+        #TODO: replace lambda with function for changing icon
+        startWatchHelpMessages(lambda: { print('lox') })
 
     def tasks(self):
         # TODO: add tasks action

@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QAction, qApp, QApplication
 from PyQt5.QtGui import QIcon
+from dbutil import insertHelpNotification
 
 class PupilWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -21,5 +22,5 @@ class PupilWindow(QMainWindow):
         self.setGeometry(300, 300, 800, 600)
 
     def helpMe(self):
-        # TODO: add help action
-        print('kek')
+        #TODO: pass real userId
+        insertHelpNotification('testUserIdFromHelpMeFunc')
