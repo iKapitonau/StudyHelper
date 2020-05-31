@@ -16,3 +16,23 @@ def insertUser(user):
 
 def findUser(username):
     return db.users.find_one({'username': username})
+
+def getTasks():
+    return [
+        {
+            'name': 'Task1',
+            'description': 'Simple Task',
+            'full': '1 + 2 + 3'
+        },
+        {
+            'name': 'Task2',
+            'description': 'Medium Task',
+            'full': '1 * 2 * 3'
+
+        },
+        {
+            'name': 'Task3',
+            'description': 'Hard Task',
+            'full': '1 ^ 2 ^ 3'
+        }
+    ]
