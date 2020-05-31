@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QComboBox, QLabel, \
     QWidget, QVBoxLayout, QPlainTextEdit, QPushButton
 
-from dbutil import getTasks
+from dbutil import getTasks, insertHelpNotification
 
 
 class PupilWindow(QMainWindow):
@@ -67,8 +67,8 @@ class PupilWindow(QMainWindow):
         self.answers[i]['submitTime'] = datetime.now()
 
     def helpMe(self):
-        # TODO: add help action
-        print('kek')
+        # TODO: pass real userId
+        insertHelpNotification('testUserIdFromHelpMeFunc')
 
     def initTaskComboBox(self):
         cb = QComboBox()

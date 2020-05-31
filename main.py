@@ -16,3 +16,4 @@ if __name__ == '__main__':
             window = teacher.TeacherWindow()
             window.show()
     sys.exit(app.exec_())
+    
