@@ -13,7 +13,8 @@ class PupilWindow(QMainWindow):
         helpMeAct = QAction(QIcon('icons/helpme.png'), 'HELP ME!', self)
         helpMeAct.triggered.connect(self.helpMe)
         
-        self.toolbar = self.addToolBar('Exit')
+        self.toolbar = self.addToolBar('PupilToolbar')
+        self.toolbar.setMovable(False)
         self.toolbar.addAction(helpMeAct)
         self.toolbar.addAction(exitAct)
 
