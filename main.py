@@ -9,5 +9,10 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     dlg = auth.Dialog()
     if not dlg.exec_():
-        # TODO: create teacher or pupil window
-        print(dlg.who)
+        if dlg.who == 'Pupil':
+            window = pupil.PupilWindow()
+            window.show()
+        elif dlg.who == 'Teacher':
+            # TODO: add teacher window
+            pass
+    sys.exit(app.exec_())
