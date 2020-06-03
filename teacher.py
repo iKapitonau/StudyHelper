@@ -31,15 +31,17 @@ class TeacherWindow(QMainWindow):
         self.exitAct = QAction(QIcon('icons/exit.png'), 'Exit', self)
         self.exitAct.triggered.connect(qApp.quit)
 
-        self.taskListAct = QAction(QIcon('icons/tasks.png'), 'TasksList', self)
-        self.taskListAct.triggered.connect(self.showTaskList)
+        self.createTaskAct = QAction(QIcon('icons/create.png'), 'Create Task', self)
+        self.createTaskAct.triggered.connect(self.createTask)
 
         self.toolbar = self.addToolBar('TeacherToolbar')
         self.toolbar.setMovable(False)
+        self.toolbar.addAction(self.createTaskAct)
         self.toolbar.addAction(self.tasksAct)
         self.toolbar.addAction(self.pupilsAct)
         self.toolbar.addAction(self.helpReqAct)
         self.toolbar.addAction(self.exitAct)
+
 
         self.setGeometry(300, 300, 800, 600)
         self.setCentralWidget(QWidget())
