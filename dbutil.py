@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from pprint import pprint
+from bson.objectid import ObjectId
 import bcrypt
 import threading
 
@@ -22,24 +23,17 @@ def findUser(username):
     return db.users.find_one({'username': username})
 
 def getTasks():
-    return [
-        {
-            'name': 'Task1',
-            'description': 'Simple Task',
-            'full': '1 + 2 + 3'
-        },
-        {
-            'name': 'Task2',
-            'description': 'Medium Task',
-            'full': '1 * 2 * 3'
+    return list(db.tasks.find({}))
 
-        },
-        {
-            'name': 'Task3',
-            'description': 'Hard Task',
-            'full': '1 ^ 2 ^ 3'
-        }
-    ]
+def upsertTask(task):
+    db.tasks.update_one({'name': task['name']}, {"$set": {
+            'name': task['name'],
+            'description': task['description'],
+            'full': task['full']
+        }}, upsert=True)
+        
+def deleteTask(taskId):
+    db.tasks.delete_one({'_id': ObjectId(taskId)})
 
 def insertHelpNotification(username):
     db.notifications.insert_one(
