@@ -69,18 +69,23 @@ class TeacherWindow(QMainWindow):
             self.tasksLayout.addWidget(buttonDel, i, 2)
             i += 2
 
+    def extractTask(self, dlg):
+        return {
+                'name': dlg.name,
+                'description': dlg.descr,
+                'full': dlg.problem
+                }
+
     def createTask(self):
         dlg = task.Dialog()
         if not dlg.exec_():
-            dbutil.upsertTask({'name': dlg.name,
-                               'description': dlg.descr,
-                               'full': dlg.problem})
+            dbutil.upsertTask(self.extractTask(dlg))
         self.showTaskList()
 
     def editTaskAction(self, taskdescr):
         dlg = task.Dialog(taskdescr['name'], taskdescr['description'], taskdescr['full'])
         if not dlg.exec_():
-            pass
+            dbutil.upsertTask(self.extractTask(dlg))
         self.showTaskList()
 
     def deleteTaskAction(self, t):
