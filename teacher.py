@@ -1,10 +1,12 @@
+from functools import partial
+
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QVBoxLayout, QLabel, QWidget, \
     QPushButton, QGridLayout
 
 import dbutil
-
 import task
+
 
 class TeacherWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -14,7 +16,7 @@ class TeacherWindow(QMainWindow):
         self.notificationLayout = QGridLayout()
         self.tasksLayout = QGridLayout()
 
-        self.tasks = dbutil.getTasks()
+        self.tasks = []
 
         self.tasksAct = QAction(QIcon('icons/tasks.png'), 'Tasks', self)
         self.tasksAct.triggered.connect(self.showTaskList)
@@ -41,13 +43,13 @@ class TeacherWindow(QMainWindow):
         self.toolbar.addAction(self.helpReqAct)
         self.toolbar.addAction(self.exitAct)
 
-
         self.setGeometry(300, 300, 800, 600)
         self.setCentralWidget(QWidget())
         self.centralWidget().setLayout(self.layout)
         dbutil.startWatchHelpMessages(lambda: self.helpReqAct.setIcon(self.alertHelpIcon))
 
     def updateLayout(self, layout):
+        self.tasks = dbutil.getTasks()
         self.layout = layout
         self.setCentralWidget(QWidget())
         self.centralWidget().setLayout(self.layout)
@@ -56,31 +58,34 @@ class TeacherWindow(QMainWindow):
         self.tasksLayout = QGridLayout()
         self.updateLayout(self.tasksLayout)
         i = 0
-        for task in self.tasks:
-            message = task["name"] + " - " + task["description"] + "\n" + task["full"]
+        for t in self.tasks:
+            message = t["name"] + " - " + t["description"] + "\n" + t["full"]
             self.tasksLayout.addWidget(QLabel(message), i, 0)
             buttonEdit = QPushButton("EDIT")
-            buttonEdit.clicked.connect(lambda: self.editTaskAction(task))
+            buttonEdit.clicked.connect(partial(self.editTaskAction, t))
             self.tasksLayout.addWidget(buttonEdit, i, 1)
             buttonDel = QPushButton("DELETE")
-            buttonDel.clicked.connect(lambda: self.deleteTaskAction(task))
+            buttonDel.clicked.connect(partial(self.deleteTaskAction, t))
             self.tasksLayout.addWidget(buttonDel, i, 2)
             i += 2
 
     def createTask(self):
         dlg = task.Dialog()
         if not dlg.exec_():
-            dbutil.upsertTask({ 'name': dlg.name,
-                              'description': dlg.descr,
-                              'full': dlg.problem})
+            dbutil.upsertTask({'name': dlg.name,
+                               'description': dlg.descr,
+                               'full': dlg.problem})
+        self.showTaskList()
 
     def editTaskAction(self, taskdescr):
         dlg = task.Dialog(taskdescr['name'], taskdescr['description'], taskdescr['full'])
         if not dlg.exec_():
             pass
+        self.showTaskList()
 
-    def deleteTaskAction(self, task):
-        dbutil.deleteTask(task['_id'])
+    def deleteTaskAction(self, t):
+        dbutil.deleteTask(t['_id'])
+        self.showTaskList()
 
     def pupils(self):
         # TODO: add pupils action
