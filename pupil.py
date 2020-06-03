@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QComboBox, QLabel, \
     QWidget, QVBoxLayout, QPlainTextEdit, QPushButton
 
-from dbutil import getTasks, insertHelpNotification
+from dbutil import getTasks, insertHelpNotification, saveAnswer
 
 
 class PupilWindow(QMainWindow):
@@ -67,6 +67,7 @@ class PupilWindow(QMainWindow):
         answer.setEnabled(False)
         button.setEnabled(False)
         self.answers[i]['submitTime'] = datetime.now()
+        saveAnswer(i, self.answers[i]['text'], self.answers[i]['submitTime'])   
 
     def helpMe(self):
         insertHelpNotification(self.username)

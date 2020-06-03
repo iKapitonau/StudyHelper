@@ -51,6 +51,8 @@ def updateHelpNotificationStatus(username, notifStatus):
 def getNotifications():
     return list(db.notifications.find({'notifStatus': ACTIVE_NOTIF_STATUS}))
 
+def saveAnswer(taskNumber, textAnswer, submitTime):
+    db.answers.insert_one({'taskNumber': taskNumber, 'textAnswer': textAnswer, 'submitTime': submitTime})
 
 def disableHelpNotification(username):
     updateHelpNotificationStatus(username, CLOSED_NOTIF_STATUS)
