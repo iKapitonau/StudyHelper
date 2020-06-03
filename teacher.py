@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QVBoxLayout, QLabel, QWi
 import dbutil
 from dbutil import startWatchHelpMessages
 
+import task
 
 class TeacherWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -64,6 +65,14 @@ class TeacherWindow(QMainWindow):
             button.clicked.connect(lambda: self.deleteTaskAction(task))
             self.tasksLayout.addWidget(button, i, 2)
             i += 2
+
+    def createTask(self):
+        dlg = task.Dialog()
+        if not dlg.exec_():
+            # accepted
+            print(dlg.name, dlg.descr, dlg.problem)
+
+        # add to db
 
     def editTaskAction(self, task):
         pass
