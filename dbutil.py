@@ -46,8 +46,34 @@ def insertHelpNotification(username):
     db.notifications.insert_one(
         {'username': username, 'notifStatus': ACTIVE_NOTIF_STATUS})
 
+notifications = [
+        {
+            'username': "Vasya",
+            'notifStatus': True
+        },
+        {
+             'username': "Vadim",
+             'notifStatus': True
+        },
+        {
+            'username': "Olya",
+            'notifStatus': True
+        },
+        {
+            'username': "Petya",
+            'notifStatus': True
+        }
+    ]
+
 def getNotifications():
-    pass
+    # возвращает все True запросы на помощь
+    return [notification for notification in notifications if notification['notifStatus'] is True]
+
+def disableHelpNotification(username):
+    # у username изменяет true запрос на false
+    for notification in notifications:
+        if notification['username'] == username:
+            notification['notifStatus'] = False
 
 # Place of functions below can be discussed. It is not really related to DB functions.
 # But TeacherWindow class - is not very good too. If we faced with a lot of such functions, can move them somewhere.
