@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QVBoxLayout, QLabel, QWi
 import dbutil
 from dbutil import startWatchHelpMessages
 
+import task
 
 class TeacherWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -43,6 +44,24 @@ class TeacherWindow(QMainWindow):
     def tasks(self):
         # TODO: add tasks action
         print('in tasks')
+        self.createTask()
+        # |create|
+        # #1 oj123j1ok2j | edit | delete |
+        # #2 jawdkajwdkj | edit | delete |
+
+    def createTask(self):
+        dlg = task.Dialog()
+        if not dlg.exec_():
+            # accepted
+            print(dlg.name, dlg.descr, dlg.problem)
+
+        # add to db
+
+    def editTask(self, task):
+        pass
+
+    def deleteTask(self, task):
+        pass
 
     def pupils(self):
         # TODO: add pupils action
