@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QVBoxLayout, QLabel, QWi
     QPushButton, QGridLayout
 
 import dbutil
-from dbutil import startWatchHelpMessages
 
 import task
 
@@ -46,7 +45,7 @@ class TeacherWindow(QMainWindow):
         self.setGeometry(300, 300, 800, 600)
         self.setCentralWidget(QWidget())
         self.centralWidget().setLayout(self.layout)
-        startWatchHelpMessages(lambda: self.helpReqAct.setIcon(self.alertHelpIcon))
+        dbutil.startWatchHelpMessages(lambda: self.helpReqAct.setIcon(self.alertHelpIcon))
 
     def updateLayout(self, layout):
         self.layout = layout
@@ -71,10 +70,9 @@ class TeacherWindow(QMainWindow):
     def createTask(self):
         dlg = task.Dialog()
         if not dlg.exec_():
-            # accepted
-            print(dlg.name, dlg.descr, dlg.problem)
-
-        # add to db
+            dbutil.upsertTask({ 'name': dlg.name,
+                              'description': dlg.descr,
+                              'full': dlg.problem})
 
     def editTaskAction(self, taskdescr):
         dlg = task.Dialog(taskdescr['name'], taskdescr['description'], taskdescr['full'])
@@ -82,7 +80,7 @@ class TeacherWindow(QMainWindow):
             pass
 
     def deleteTaskAction(self, task):
-        pass
+        dbutil.deleteTask(task['_id'])
 
     def pupils(self):
         # TODO: add pupils action
