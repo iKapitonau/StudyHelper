@@ -8,7 +8,7 @@ from dbutil import getTasks, insertHelpNotification
 
 
 class PupilWindow(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, username, parent=None):
         super().__init__(parent)
         self.setWindowTitle('Study Helper (Pupil)')
 
@@ -34,6 +34,8 @@ class PupilWindow(QMainWindow):
         self.setCentralWidget(QWidget(self))
         self.centralWidget().setLayout(self.layout)
         self.setGeometry(300, 300, 800, 600)
+
+        self.username = username
 
     def selectTaskAction(self, i):
         currentTask = self.tasks[i]
@@ -67,9 +69,7 @@ class PupilWindow(QMainWindow):
         self.answers[i]['submitTime'] = datetime.now()
 
     def helpMe(self):
-        # TODO: pass real userId
-        userLogin = '123'
-        insertHelpNotification(userLogin)
+        insertHelpNotification(self.username)
 
     def initTaskComboBox(self):
         cb = QComboBox()

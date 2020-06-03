@@ -10,7 +10,7 @@ if __name__ == '__main__':
     dlg = auth.Dialog()
     if not dlg.exec_():
         if dlg.who == 'Pupil':
-            window = pupil.PupilWindow()
+            window = pupil.PupilWindow(dlg.username)
             window.show()
         elif dlg.who == 'Teacher':
             window = teacher.TeacherWindow()

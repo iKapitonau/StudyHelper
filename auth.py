@@ -73,6 +73,7 @@ class Dialog(QDialog):
             errorMsg = 'Incorrect role.'
 
         if not errorMsg:
+            self.username = self.login_field.text()
             self.done(0)
         else:
             self.label.setText(errorMsg)
@@ -90,6 +91,7 @@ class Dialog(QDialog):
         
         if not errorMsg:
             insertUser(user)
+            self.username = self.login_field.text()
             self.done(0)
         else:
             self.label.setText(errorMsg)
