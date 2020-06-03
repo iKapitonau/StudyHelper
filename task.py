@@ -32,9 +32,7 @@ class Dialog(QDialog):
         self.name = self.nameField.text()
         self.descr = self.descrField.text()
         self.problem = self.fullField.toPlainText()
-        print('in accept')
         self.done(0)
 
     def reject(self):
-        print('in reject')
         self.done(1)

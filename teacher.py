@@ -60,12 +60,12 @@ class TeacherWindow(QMainWindow):
         for task in self.tasks:
             message = task["name"] + " - " + task["description"] + "\n" + task["full"]
             self.tasksLayout.addWidget(QLabel(message), i, 0)
-            button = QPushButton("EDIT")
-            button.clicked.connect(lambda: self.editTaskAction(task))
-            self.tasksLayout.addWidget(button, i, 1)
-            button = QPushButton("DELETE")
-            button.clicked.connect(lambda: self.deleteTaskAction(task))
-            self.tasksLayout.addWidget(button, i, 2)
+            buttonEdit = QPushButton("EDIT")
+            buttonEdit.clicked.connect(lambda: self.editTaskAction(task))
+            self.tasksLayout.addWidget(buttonEdit, i, 1)
+            buttonDel = QPushButton("DELETE")
+            buttonDel.clicked.connect(lambda: self.deleteTaskAction(task))
+            self.tasksLayout.addWidget(buttonDel, i, 2)
             i += 2
 
     def createTask(self):
@@ -76,8 +76,10 @@ class TeacherWindow(QMainWindow):
 
         # add to db
 
-    def editTaskAction(self, task):
-        pass
+    def editTaskAction(self, taskdescr):
+        dlg = task.Dialog(taskdescr['name'], taskdescr['description'], taskdescr['full'])
+        if not dlg.exec_():
+            pass
 
     def deleteTaskAction(self, task):
         pass
