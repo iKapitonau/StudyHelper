@@ -12,9 +12,12 @@ class TeacherWindow(QMainWindow):
         self.setWindowTitle('Study Helper (Teacher)')
         self.layout = QVBoxLayout()
         self.notificationLayout = QGridLayout()
+        self.tasksLayout = QGridLayout()
+
+        self.tasks = dbutil.getTasks()
 
         self.tasksAct = QAction(QIcon('icons/tasks.png'), 'Tasks', self)
-        self.tasksAct.triggered.connect(self.tasks)
+        self.tasksAct.triggered.connect(self.showTaskList)
 
         self.pupilsAct = QAction(QIcon('icons/pupils.png'), 'Pupils Info', self)
         self.pupilsAct.triggered.connect(self.pupils)
@@ -27,6 +30,9 @@ class TeacherWindow(QMainWindow):
         self.exitAct = QAction(QIcon('icons/exit.png'), 'Exit', self)
         self.exitAct.triggered.connect(qApp.quit)
 
+        self.taskListAct = QAction(QIcon('icons/tasks.png'), 'TasksList', self)
+        self.taskListAct.triggered.connect(self.showTaskList)
+
         self.toolbar = self.addToolBar('TeacherToolbar')
         self.toolbar.setMovable(False)
         self.toolbar.addAction(self.tasksAct)
@@ -38,11 +44,32 @@ class TeacherWindow(QMainWindow):
         self.setCentralWidget(QWidget())
         self.centralWidget().setLayout(self.layout)
         startWatchHelpMessages(lambda: self.helpReqAct.setIcon(self.alertHelpIcon))
-        self.layout.addLayout(self.notificationLayout)
 
-    def tasks(self):
-        # TODO: add tasks action
-        print('in tasks')
+    def updateLayout(self, layout):
+        self.layout = layout
+        self.setCentralWidget(QWidget())
+        self.centralWidget().setLayout(self.layout)
+
+    def showTaskList(self):
+        self.tasksLayout = QGridLayout()
+        self.updateLayout(self.tasksLayout)
+        i = 0
+        for task in self.tasks:
+            message = task["name"] + " - " + task["description"] + "\n" + task["full"]
+            self.tasksLayout.addWidget(QLabel(message), i, 0)
+            button = QPushButton("EDIT")
+            button.clicked.connect(lambda: self.editTaskAction(task))
+            self.tasksLayout.addWidget(button, i, 1)
+            button = QPushButton("DELETE")
+            button.clicked.connect(lambda: self.deleteTaskAction(task))
+            self.tasksLayout.addWidget(button, i, 2)
+            i += 2
+
+    def editTaskAction(self, task):
+        pass
+
+    def deleteTaskAction(self, task):
+        pass
 
     def pupils(self):
         # TODO: add pupils action
@@ -53,6 +80,8 @@ class TeacherWindow(QMainWindow):
             layout.itemAt(index).widget().setParent(None)
 
     def showHelpList(self):
+        self.notificationLayout = QGridLayout()
+        self.updateLayout(self.notificationLayout)
         self.helpReqAct.setIcon(self.normalHelpIcon)
         self.cleanLayout(self.notificationLayout)
         notifications = dbutil.getNotifications()
