@@ -68,7 +68,8 @@ class PupilWindow(QMainWindow):
 
     def helpMe(self):
         # TODO: pass real userId
-        insertHelpNotification('testUserIdFromHelpMeFunc')
+        userLogin = '123'
+        insertHelpNotification(userLogin)
 
     def initTaskComboBox(self):
         cb = QComboBox()

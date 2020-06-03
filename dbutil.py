@@ -42,9 +42,12 @@ def getTasks():
         }
     ]
 
-def insertHelpNotification(userId):
+def insertHelpNotification(username):
     db.notifications.insert_one(
-        {'userId': userId, 'notifType': HELP_NOTIF_TYPE, 'notifStatus': ACTIVE_NOTIF_STATUS})
+        {'username': username, 'notifStatus': ACTIVE_NOTIF_STATUS})
+
+def getNotifications():
+    pass
 
 # Place of functions below can be discussed. It is not really related to DB functions.
 # But TeacherWindow class - is not very good too. If we faced with a lot of such functions, can move them somewhere.
