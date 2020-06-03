@@ -3,7 +3,6 @@ from pprint import pprint
 import bcrypt
 import threading
 
-HELP_NOTIF_TYPE = 'HELP'
 ACTIVE_NOTIF_STATUS = 'ACTIVE'
 CLOSED_NOTIF_STATUS = 'CLOSED'
 
@@ -46,46 +45,20 @@ def insertHelpNotification(username):
     db.notifications.insert_one(
         {'username': username, 'notifStatus': ACTIVE_NOTIF_STATUS})
 
-notifications = [
-        {
-            'username': "Vasya",
-            'notifStatus': True
-        },
-        {
-             'username': "Vadim",
-             'notifStatus': True
-        },
-        {
-            'username': "Olya",
-            'notifStatus': True
-        },
-        {
-            'username': "Petya",
-            'notifStatus': True
-        }
-    ]
+def updateHelpNotificationStatus(username, notifStatus):
+    db.notifications.update_many({'username': username}, [{'$set': {'notifStatus': notifStatus}}])
 
 def getNotifications():
-    # возвращает все True запросы на помощь
-    return [notification for notification in notifications if notification['notifStatus'] is True]
+    return list(db.notifications.find({'notifStatus': ACTIVE_NOTIF_STATUS}))
+
 
 def disableHelpNotification(username):
-    # у username изменяет true запрос на false
-    for notification in notifications:
-        if notification['username'] == username:
-            notification['notifStatus'] = False
+    updateHelpNotificationStatus(username, CLOSED_NOTIF_STATUS)
 
 # Place of functions below can be discussed. It is not really related to DB functions.
 # But TeacherWindow class - is not very good too. If we faced with a lot of such functions, can move them somewhere.
 def watchHelpMessages(showUpdates):
-    change_stream = db.notifications.watch([{
-        '$match': {
-            '$and': [
-                {'operationType': {'$in': ['insert']}},
-                {"fullDocument.notifType": HELP_NOTIF_TYPE}
-            ]
-        }
-    }])
+    change_stream = db.notifications.watch([{'$match': {'operationType': 'insert'}}])
     print('Watching of help messages started.')
     for _ in change_stream:
         showUpdates()
